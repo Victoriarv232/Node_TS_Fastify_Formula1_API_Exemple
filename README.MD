@@ -1,81 +1,141 @@
-<div align="center">
+# Formula 1 API
 
-  <img src="./.github/assets/blue-saiyan-bg.png" alt="Logo" height="200">
-  <h1 align="center"><strong>NODE BOILERPLATE - BLUE EDITION</strong></h1>
-  <p align="center">
-	  Don't start a new Node project from zero!<br> Use this simple <b>Nodejs</b> boilerplate with pre-configured <b>Typescript</b> in a modern way.
-  </p>
+This is a minimal REST API built with Fastify and TypeScript, providing basic data about Formula 1 teams and drivers.
 
-</div>
+This project consists in a study, so the informations might not be complete.
 
-<br />
+## Project Setup
 
-  <!-- Badges -->
-<div align="center">
-  
-  [![TypeScript version][ts-badge]][typescript-5-4]
-  [![Node.js version][nodejs-badge]][nodejs]
+This project uses modern tooling for development and build processes:
 
-</div>
+* **Fastify** for fast and low-overhead HTTP server
+* **TypeScript** for type safety and maintainability
+* **Tsup** for bundling
+* **TSX** for running TypeScript files directly
 
-# 🚀 Technologies
+## Scripts
 
-This code source was developed with the following items:
-
-### 📦 Dependencies
-
-- [typescript][typescript-npm] - Superset for application scale JavaScript development
-- [tsx][tsx-npm] - TypeScript Execute (tsx): Enable Node.js to run TypeScript
-- [tsup][tsup-npm] - Bundle your TypeScript library with no config, powered by esbuild
-- [@types/node][@types/node-npm] - type definitions for node
-
-### 📄 Files
-
-- `.gitignore` - Ignore folders like node_modules
-- `.env` - Enviroment variables
-- `tsconfig.json` - Typescript configure Options
-
-### ⚡ Scripts
-
-- `npm run dist`: Compiles TypeScript files to JavaScript in the dist directory.
-- `npm run start:dev`: Runs the server in development mode with environment variables loaded from the .env file.
-- `npm run start:watch`: Runs the server in development mode with support for automatic reload on file changes.
-- `npm run start:dist`: Compiles the project and runs the compiled version from the dist directory.
-
-# 👨‍💻 How To Use
-
-click in **[Use this template]** OR
-
-To clone and run this application, you'll need [Git](https://git-scm.com), [Node.js v20+](https://nodejs.org/en/) + [NPM v10+](https://nodejs.org/en/) installed on your computer. From your command line:
+Use the following commands defined in `package.json`:
 
 ```bash
-# Clone this repository
-$ git clone https://github.com/felipeAguiarCode/node-blue-boilerplate
-
-# Go into the repository
-$ cd node-blue-boilerplate
-
 # Install dependencies
-$ npm install
+npm install
+
+# Start in development mode with .env support
+npm run start:dev
+
+# Start in watch mode (auto-reload on file changes)
+npm run start:watch
+
+# Build the project to /dist
+npm run dist
+
+# Start from the built code
+npm run start:dist
 ```
 
-## Author
+## Available Endpoints
 
-| [<img src="https://avatars3.githubusercontent.com/u/37452836?s=96&v=4"><br><sub>Felipe Aguiar</sub>](https://github.com/felipeAguiarCode) |
-| :---------------------------------------------------------------------------------------------------------------------------------------: |
-|                                            [Linkedin](www.linkedin.com/in/felipe-aguiar-exe/)                                             |
+### Get All Teams
 
-# Credits
+Returns a list of all registered Formula 1 teams.
 
-icons by [Pino Lamanna][dribble-icon]
+* **URL**
 
-[typescript]: https://www.typescriptlang.org/
-[typescript-5-4]: https://www.typescriptlang.org/
-[ts-badge]: https://img.shields.io/badge/TypeScript-5.4-blue.svg
-[nodejs-badge]: https://img.shields.io/badge/Node.js->=%2020.00-blue.svg
-[nodejs]: https://nodejs.org/
-[dribble-icon]: https://dribbble.com/Schakalwal
-[typescript-npm]: https://www.npmjs.com/package/typescript
-[tsx-npm]: https://www.npmjs.com/package/tsx
-[tsup-npm]: https://www.npmjs.com/package/tsup
-[@types/node-npm]: https://www.npmjs.com/package/@types/node
+  ```
+  GET /teams
+  ```
+
+* **Sample Response**
+
+  ```json
+  {
+    "teams": [
+      { "id": 1, "name": "McLaren", "base": "Woking, UK" },
+      { "id": 2, "name": "Mercedes", "base": "Brackley, UK" },
+      { "id": 3, "name": "Red Bull Racing", "base": "Milton Keynes, UK" }
+    ]
+  }
+  ```
+
+---
+
+### Get All Drivers
+
+Returns a list of all registered Formula 1 drivers.
+
+* **URL**
+
+  ```
+  GET /drivers
+  ```
+
+* **Sample Response**
+
+  ```json
+  {
+    "drivers": [
+      { "id": 1, "name": "Max Verstappen", "team": "Red Bull Racing" },
+      { "id": 2, "name": "Lewis Hamilton", "team": "Ferrari" },
+      { "id": 3, "name": "Lando Norris", "team": "McLaren" }
+    ]
+  }
+  ```
+
+---
+
+### Get Driver by ID
+
+Returns the data of a specific driver by ID.
+
+* **URL**
+
+  ```
+  GET /drivers/:id
+  ```
+
+* **URL Exemple**
+
+  ```
+  http://localhost:3333/drivers/1
+  ```
+
+* **URL Parameter**
+
+  * `id` (string) - Driver ID
+
+* **Sample Success Response**
+
+  ```json
+  {
+    "driver": { "id": 1, "name": "Max Verstappen", "team": "Red Bull Racing" }
+  }
+  ```
+
+* **Sample Not Found Response**
+
+  ```json
+  {
+    "message": "Driver Not Found"
+  }
+  ```
+
+---
+
+## Server Configuration
+
+* CORS is enabled for all origins using `@fastify/cors`
+* The server runs on port **3333**
+* Entry file: `src/server.ts`
+
+## Technologies Used
+
+* **Fastify** `^5.4.0`
+* **TypeScript** `^5.4.3`
+* **TSX** `^4.7.1`
+* **Tsup** `^8.0.2`
+* **@fastify/cors** `^11.1.0`
+
+
+---
+
